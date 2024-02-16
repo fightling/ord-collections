@@ -3,8 +3,6 @@
 mod error;
 mod ord_map;
 mod ord_vec;
-#[cfg(test)]
-mod tests;
 
 pub use error::*;
 pub use ord_map::*;

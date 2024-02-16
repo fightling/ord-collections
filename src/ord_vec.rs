@@ -3,6 +3,34 @@
 use crate::{Error, Result};
 
 /// Vec of items sorted by key.
+///
+/// # Example
+///
+/// ```
+/// use ord_collections:: {Error,OrdVec};
+///
+/// let mut index: OrdVec<u64> = OrdVec::default();
+///
+/// // insert `1`, `2`, `3` in wrong order
+/// assert!(index.insert(1).is_ok());
+/// assert!(index.insert(3).is_ok());
+/// assert!(index.insert(2).is_ok());
+///
+/// // check that we cannot push `1` again
+/// assert!(matches!(
+///     index.insert(1),
+///     Err(Error::Duplicate(_))
+/// ));
+///
+/// // check that iteration is in expected order
+/// let mut sorted = String::new();
+/// for i in index.iter() {
+///     sorted += &i.to_string()
+/// }
+/// assert_eq!(sorted, "123");
+///
+/// assert!(index.insert(1).is_err());
+/// ```
 #[derive(Clone, Debug, PartialEq)]
 pub struct OrdVec<E>(Vec<E>)
 where
