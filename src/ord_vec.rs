@@ -149,11 +149,17 @@ where
     }
 }
 
-impl<E> From<Vec<E>> for OrdVec<E>
+impl<E> TryFrom<Vec<E>> for OrdVec<E>
 where
     E: PartialEq + PartialOrd + std::fmt::Display,
 {
-    fn from(value: Vec<E>) -> Self {
-        Self(value)
+    type Error = Error;
+
+    fn try_from(value: Vec<E>) -> std::prelude::v1::Result<Self, Self::Error> {
+        let mut result = Self::new();
+        for i in value {
+            result.insert(i)?;
+        }
+        Ok(result)
     }
 }
