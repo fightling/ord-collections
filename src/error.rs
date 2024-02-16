@@ -1,12 +1,14 @@
 //! Errors within module [crate::jobs].
 
+#[cfg(feature = "thiserror")]
 use thiserror::Error;
 
 /// Error within module [super]
-#[derive(Error, Debug)]
+#[derive(Debug)]
+#[cfg_attr(feature = "thiserror", derive(Error))]
 pub enum Error {
     /// Element already existing.
-    #[error("Duplicate element {0}")]
+    #[cfg_attr(feature = "thiserror", error("Duplicate element {0}"))]
     Duplicate(String),
 }
 
