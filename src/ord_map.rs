@@ -127,7 +127,7 @@ where
     pub fn insert(&mut self, indexed: Indexed<I, E>) -> Result<()> {
         self.vec.insert(indexed)
     }
-    ///
+    /// Get mutable element reference from map at the given index.
     pub fn get_mut(&mut self, index: &I) -> Option<&mut E> {
         self.vec
             .iter_mut()

@@ -72,6 +72,14 @@ where
         self.0.push(element);
         Ok(())
     }
+    /// Append other to self.
+    /// # Arguments
+    /// - `other`: other to append
+    pub fn append(&mut self, other: &mut Self) {
+        for other in other.0.drain(..) {
+            self.insert(other).unwrap();
+        }
+    }
     /// Return `true` if self contains the given element.
     /// # Arguments
     /// - `what`: comparison value
@@ -161,5 +169,11 @@ where
             result.insert(i)?;
         }
         Ok(result)
+    }
+}
+
+impl std::fmt::Display for OrdVec<String> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.join(","))
     }
 }
