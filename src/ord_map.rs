@@ -1,6 +1,6 @@
 //! Ordered map like container.
 
-use crate::{OrdVec, Result};
+use crate::OrdVec;
 
 /// Indexed element fo use in [OrdMap].
 #[derive(Clone, Debug, Default)]
@@ -92,54 +92,29 @@ where
 /// assert!(index.insert(Indexed::new('A', 1)).is_err());
 /// ```
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct OrdMap<I, E>
+pub struct OrdMap<I, E>(OrdVec<Indexed<I, E>>)
+where
+    I: PartialEq + PartialOrd + std::fmt::Display,
+    E: std::fmt::Display;
+
+impl<I, E> std::ops::Deref for OrdMap<I, E>
 where
     I: PartialEq + PartialOrd + std::fmt::Display,
     E: std::fmt::Display,
 {
-    vec: OrdVec<Indexed<I, E>>,
+    type Target = OrdVec<Indexed<I, E>>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
 }
 
-impl<I, E> OrdMap<I, E>
+impl<I, E> std::ops::DerefMut for OrdMap<I, E>
 where
     I: PartialEq + PartialOrd + std::fmt::Display,
     E: std::fmt::Display,
 {
-    /// insert element into map with given index
-    /// # Arguments
-    /// - `index`: index of element
-    /// - `element`: element to insert
-    /// # Returns
-    /// - `Ok(())` if element was inserted
-    /// - `Err(Error::Duplicate)` if index already exists
-    pub fn insert(&mut self, indexed: Indexed<I, E>) -> Result<()> {
-        self.vec.insert(indexed)
-    }
-    /// Get mutable element reference from map at the given index.
-    pub fn get_mut(&mut self, index: &I) -> Option<&mut E> {
-        self.vec
-            .iter_mut()
-            .find(|i| &i.0 == index)
-            .map(|i| &mut i.1)
-    }
-    /// Returns iterator over elements in map.
-    pub fn iter(&self) -> impl Iterator<Item = &Indexed<I, E>> {
-        self.vec.iter()
-    }
-    /// Returns iterator over elements in map.
-    pub fn iter_mut(&mut self) -> impl Iterator<Item = (&I, &mut E)> {
-        self.vec.iter_mut().map(|i| (&i.0, &mut i.1))
-    }
-    /// Return length of map.
-    pub fn len(&self) -> usize {
-        self.vec.len()
-    }
-    /// Return `true` if map is empty.
-    pub fn is_empty(&self) -> bool {
-        self.vec.is_empty()
-    }
-    /// Return `true` if map contains element with given index.
-    pub fn contains(&self, index: I) -> bool {
-        self.vec.iter().any(|i| i.0 == index)
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
     }
 }

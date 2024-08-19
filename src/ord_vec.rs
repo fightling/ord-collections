@@ -40,12 +40,6 @@ impl<E> OrdVec<E>
 where
     E: PartialEq + PartialOrd + std::fmt::Display,
 {
-    /// Create new empty map.
-    /// # Returns
-    /// New empty map.
-    pub const fn new() -> Self {
-        Self(Vec::new())
-    }
     /// Insert new element.
     /// # Arguments
     /// - `element`: element to insert
@@ -151,12 +145,12 @@ where
 
 impl<E> TryFrom<Vec<E>> for OrdVec<E>
 where
-    E: PartialEq + PartialOrd + std::fmt::Display,
+    E: PartialEq + PartialOrd + std::fmt::Display + Default,
 {
     type Error = Error;
 
     fn try_from(value: Vec<E>) -> std::prelude::v1::Result<Self, Self::Error> {
-        let mut result = Self::new();
+        let mut result = Self::default();
         for i in value {
             result.insert(i)?;
         }
