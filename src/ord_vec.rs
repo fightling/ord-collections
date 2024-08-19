@@ -31,19 +31,11 @@ use crate::{Error, Result};
 ///
 /// assert!(index.insert(1).is_err());
 /// ```
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Default, PartialEq)]
 pub struct OrdVec<E>(Vec<E>)
 where
     E: PartialEq + PartialOrd + std::fmt::Display;
 
-impl<E> Default for OrdVec<E>
-where
-    E: PartialEq + PartialOrd + std::fmt::Display,
-{
-    fn default() -> Self {
-        Self(Vec::new())
-    }
-}
 impl<E> OrdVec<E>
 where
     E: PartialEq + PartialOrd + std::fmt::Display,

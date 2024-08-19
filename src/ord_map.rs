@@ -91,25 +91,13 @@ where
 ///
 /// assert!(index.insert(Indexed::new('A', 1)).is_err());
 /// ```
-#[derive(Debug)]
+#[derive(Clone, Debug, Default, PartialEq)]
 pub struct OrdMap<I, E>
 where
     I: PartialEq + PartialOrd + std::fmt::Display,
     E: std::fmt::Display,
 {
     vec: OrdVec<Indexed<I, E>>,
-}
-
-impl<I, E> Default for OrdMap<I, E>
-where
-    I: PartialEq + PartialOrd + std::fmt::Display,
-    E: std::fmt::Display,
-{
-    fn default() -> Self {
-        Self {
-            vec: OrdVec::default(),
-        }
-    }
 }
 
 impl<I, E> OrdMap<I, E>
